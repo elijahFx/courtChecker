@@ -4,6 +4,7 @@ const fs = require('fs');
 const path = require('path');
 
 const url = 'https://service.court.gov.by/ru/public/schedule/schedule';
+const apiUrl = 'https://premcalc.onrender.com/sessions';
 
 function formatDate(date) {
   const day = String(date.getDate()).padStart(2, '0');
@@ -132,20 +133,26 @@ async function main() {
     const dateA = parseDateAndTime(a.date, a.time);
     const dateB = parseDateAndTime(b.date, b.time);
     return dateA - dateB;
-  });
+  })
 
-  const filePath = path.join(__dirname, 'court_cases.txt');
-  const fileContent = allCases.map(caseDetails => 
-    `Name: ${caseDetails.name}\nDate: ${caseDetails.date}\nTime: ${caseDetails.time}\nCourt Room: ${caseDetails.courtRoom}\nLiabelee: ${caseDetails.liabelee}\nJudge: ${caseDetails.judge}\nType: ${caseDetails.type}\n\n`
-  ).join('\n');
+  try {
+    const response = await fetch(apiUrl, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(allCases)
+    });
 
-  fs.writeFile(filePath, fileContent, (err) => {
-    if (err) {
-      console.error('Error writing to file:', err);
-    } else {
-      console.log('Court case details written to court_cases.txt');
+    if (!response.ok) {
+      throw new Error(`Failed to send data: ${response.statusText}`);
     }
-  });
+
+    const result = await response.json();
+    console.log('Successfully sent cases to the server:', result);
+  } catch (error) {
+    console.error('Error sending cases to the server:', error);
+  }
 }
 
 main();
