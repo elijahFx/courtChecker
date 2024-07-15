@@ -54,7 +54,8 @@ const potrebosses = [
   { name: "Бурдо Никита Владимирович", courtId: 97 },
   { name: "Бурый Алексей Витальевич", courtId: 97 },
   { name: "Зингаров Игорь Святославович", courtId: 93 },
-  { name: "Бурдо Никита Владимирович", courtId: 97 }
+  { name: "Бурдо Никита Владимирович", courtId: 97 },
+  { name: "Бурко Ирина Борисовна", courtId: 100 },
 ];
 
 async function fetchCourtData(name, courtId) {
@@ -101,7 +102,8 @@ async function fetchCourtData(name, courtId) {
         courtRoom: row.children[3].textContent.trim(),
         liabelee: row.children[7].textContent.trim(),
         judge: row.children[8].textContent.trim(),
-        type: row.children[5].textContent.trim()
+        type: row.children[5].textContent.trim(),
+        court: courtsMap[courtId]
       };
 
       cases.push(caseDetails);
