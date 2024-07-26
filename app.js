@@ -1,7 +1,5 @@
 const fetch = require('node-fetch');
 const { JSDOM } = require('jsdom');
-const fs = require('fs');
-const path = require('path');
 
 const url = 'https://service.court.gov.by/ru/public/schedule/schedule';
 const apiUrl = 'https://premcalc.onrender.com/sessions';
@@ -33,7 +31,9 @@ const courtsMap = {
   99: "Суд Первомайского района г. Минска",
   100: "Суд Заводского района г. Минска",
   101: "Суд Советского района г. Минска",
+  102: "Суд Московского района г. Минска",
   103: "Минский областной суд",
+  109: "Суд Дзержинского района",
   115: "Суд Минского района" 
 };
 
@@ -54,8 +54,13 @@ const potrebosses = [
   { name: "Бурдо Никита Владимирович", courtId: 97 },
   { name: "Бурый Алексей Витальевич", courtId: 97 },
   { name: "Зингаров Игорь Святославович", courtId: 93 },
-  { name: "Бурдо Никита Владимирович", courtId: 97 },
   { name: "Бурко Ирина Борисовна", courtId: 100 },
+  { name: "Миронова Елизавета Александровна", courtId: 94 },
+  { name: "Берко Вячеслав Сергеевич", courtId: 96 },
+  { name: "Лукашик Марина Михайловна", courtId: 109 },
+  { name: "Климентенко Татьяна Владимировна", courtId: 97 },
+  { name: "Климентенко Татьяна Владимировна", courtId: 97 },
+  { name: "Прокредит", courtId: 97 },
 ];
 
 async function fetchCourtData(name, courtId) {
